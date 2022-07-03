@@ -29,6 +29,8 @@ pygame.init()
 
 pygame.mixer.music.set_volume(0.1)
 collision_sound = pygame.mixer.Sound('ui.mp3')
+points_10 = pygame.mixer.Sound('elegosta.mp3')
+lost = pygame.mixer.Sound('papelao.mp3')
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Snake")
@@ -71,6 +73,10 @@ while True:
         apple_position = random_on_grid()
         collision_sound.play()
         points += 1
+        if points == 10:
+            points_10.play()
+        if points == 10:
+            collision_sound.stop()
 
     for pos in snake_position:
         screen.blit(snake_surface, pos)
@@ -78,12 +84,14 @@ while True:
     for i in range(len(snake_position)-1 , 0, -1):
         if collision(snake_position[0], snake_position[i]):
             points = 0
+            lost.play()
             restart_game()
         snake_position[i] = snake_position[i-1]
         
 
     if off_limits(snake_position[0]):
         points = 0
+        lost.play()
         restart_game()
 
     if snake_direction == K_UP:
