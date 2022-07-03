@@ -29,69 +29,68 @@ pygame.init()
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Snake")
 
-snake_pos = [(250, 50), (260, 50), (270, 50)]
+snake_position = [(250, 50), (260, 50), (270, 50)]
 snake_surface = pygame.Surface((pixel_size, pixel_size))
-snake_surface.fill((255, 255, 255))
+snake_surface.fill((0, 0, 0))
 snake_direction = K_LEFT
 
-
 def restart_game():
-    global snake_pos
-    global apple_pos
+    global snake_position
+    global apple_position
     global snake_direction
-    snake_pos = [(250, 50), (260, 50), (270, 50)]
+    snake_position = [(250, 50), (260, 50), (270, 50)]
     snake_direction = K_LEFT
-    apple_pos = random_on_grid()
+    apple_position = random_on_grid()
     
 
 apple_surface = pygame.Surface((pixel_size, pixel_size))
 apple_surface.fill((255, 0, 0))
-apple_pos = random_on_grid()
+apple_position = random_on_grid()
 
 while True:
     pygame.time.Clock().tick(15)
-    screen.fill((0, 0 , 0))
-    message = f'Pontos: {points}'
-    text_formatted = font.render(message, True, (255,255,255))
+    screen.fill((139, 150, 110))
+    message = f'Score: {points}'
+    text_formatted = font.render(message, True, (0,0,0))
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             exit()
-
         elif event.type == KEYDOWN:
             if event.key in [K_UP, K_DOWN, K_LEFT, K_RIGHT]:
                 snake_direction = event.key
 
-    screen.blit(apple_surface, apple_pos)
+    screen.blit(apple_surface, apple_position)
 
-    if collision(apple_pos, snake_pos[0]):
-        snake_pos.append((-10, -10))
-        apple_pos = random_on_grid()
+    if collision(apple_position, snake_position[0]):
+        snake_position.append((-10, -10))
+        apple_position = random_on_grid()
         points += 1
 
-    for pos in snake_pos:
+    for pos in snake_position:
         screen.blit(snake_surface, pos)
 
-    for i in range(len(snake_pos)-1 , 0, -1):
-        if collision(snake_pos[0], snake_pos[i]):
+    for i in range(len(snake_position)-1 , 0, -1):
+        if collision(snake_position[0], snake_position[i]):
             points = 0
             restart_game()
-        snake_pos[i] = snake_pos[i-1]
+        snake_position[i] = snake_position[i-1]
         
 
-    if off_limits(snake_pos[0]):
+    if off_limits(snake_position[0]):
         points = 0
         restart_game()
 
     if snake_direction == K_UP:
-        snake_pos[0] = (snake_pos[0][0], snake_pos[0][1] - pixel_size)
+        snake_position[0] = (snake_position[0][0], snake_position[0][1] - pixel_size)
     elif snake_direction == K_DOWN:
-        snake_pos[0] = (snake_pos[0][0], snake_pos[0][1] + pixel_size)
+        snake_position[0] = (snake_position[0][0], snake_position[0][1] + pixel_size)
     elif snake_direction == K_LEFT:
-        snake_pos[0] = (snake_pos[0][0] - pixel_size, snake_pos[0][1] )
+        snake_position[0] = (snake_position[0][0] - pixel_size, snake_position[0][1] )
     elif snake_direction == K_RIGHT:
-        snake_pos[0] = (snake_pos[0][0] + pixel_size, snake_pos[0][1] )
+        snake_position[0] = (snake_position[0][0] + pixel_size, snake_position[0][1] )
 
-    screen.blit(text_formatted, (263, 10))
+    screen.blit(text_formatted, (268, 10))
 
     pygame.display.update()
+    
