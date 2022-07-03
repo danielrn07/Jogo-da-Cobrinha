@@ -26,6 +26,10 @@ def random_on_grid():
     return x // pixel_size * pixel_size, y // pixel_size * pixel_size 
 
 pygame.init()
+
+pygame.mixer.music.set_volume(0.1)
+collision_sound = pygame.mixer.Sound('ui.mp3')
+
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Snake")
 
@@ -65,6 +69,7 @@ while True:
     if collision(apple_position, snake_position[0]):
         snake_position.append((-10, -10))
         apple_position = random_on_grid()
+        collision_sound.play()
         points += 1
 
     for pos in snake_position:
