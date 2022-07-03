@@ -4,12 +4,14 @@ import random
 from sys import exit
 pygame.font.init()
 
-window_size = (600, 600)
-pixel_size = 10
+window_size = (600, 600) #tamanho da janela
+pixel_size = 10 # tamanho do pixel do jogo 
 
 points = 0
+record = 0
 font = pygame.font.SysFont("Arial", 15, bold=True, italic=False)
 message = ""
+message2 = ""
 
 def collision(pos1, pos2):
     return pos1 == pos2
@@ -28,9 +30,9 @@ def random_on_grid():
 pygame.init()
 
 pygame.mixer.music.set_volume(0.1)
-collision_sound = pygame.mixer.Sound('ui.mp3')
+collision_sound = pygame.mixer.Sound('tomi.mp3')
 points_10 = pygame.mixer.Sound('elegosta.mp3')
-lost = pygame.mixer.Sound('papelao.mp3')
+lost = pygame.mixer.Sound('cavalo.mp3')
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Snake")
@@ -57,7 +59,9 @@ while True:
     pygame.time.Clock().tick(15)
     screen.fill((139, 150, 110))
     message = f'Score: {points}'
+    message2 = f'Record: {record}'
     text_formatted = font.render(message, True, (0,0,0))
+    text_formatted2 = font.render(message2, True, (0,0,0))
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -73,9 +77,12 @@ while True:
         apple_position = random_on_grid()
         collision_sound.play()
         points += 1
-        if points == 10:
+        
+        if points > record:
+            record = points
+        if (points % 10) == 0:
             points_10.play()
-        if points == 10:
+        if (points % 10) == 0:
             collision_sound.stop()
 
     for pos in snake_position:
@@ -103,7 +110,8 @@ while True:
     elif snake_direction == K_RIGHT:
         snake_position[0] = (snake_position[0][0] + pixel_size, snake_position[0][1] )
 
-    screen.blit(text_formatted, (268, 10))
+    screen.blit(text_formatted, (121, 10))
+    screen.blit(text_formatted2, (416, 10))
 
     pygame.display.update()
     
