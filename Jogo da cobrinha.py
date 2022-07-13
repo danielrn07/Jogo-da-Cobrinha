@@ -29,10 +29,12 @@ def random_on_grid():
 
 pygame.init()
 
-pygame.mixer.music.set_volume(0.1)
-collision_sound = pygame.mixer.Sound('tomi.mp3')
-points_10 = pygame.mixer.Sound('elegosta.mp3')
-lost = pygame.mixer.Sound('cavalo.mp3')
+pygame.mixer.music.set_volume(0.07)
+music = pygame.mixer.music.load('Sounds/puffalong.mp3')
+collision_sound = pygame.mixer.Sound('Sounds/tomi.mp3')
+pygame.mixer.music.play(-1)
+points_10 = pygame.mixer.Sound('Sounds/elegosta.mp3')
+lost = pygame.mixer.Sound('Sounds/cavalo.mp3')
 
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Snake")
